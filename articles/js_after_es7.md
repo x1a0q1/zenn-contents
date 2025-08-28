@@ -4,7 +4,7 @@ emoji: "🌻"
 type: "tech"
 topics:
   - "javascript"
-published: false
+published: true
 publication_name: "cybozu_frontend"
 ---
 
