@@ -5,6 +5,7 @@ type: "tech"
 topics:
   - "javascript"
 published: false
+publication_name: "cybozu_frontend"
 ---
 
 :::message
@@ -14,7 +15,7 @@ published: false
 ## はじめに
 夏も終わりに近づいてきましたね。みなさん夏休みはいかがお過ごしでしょうか？海に山に、はたまたエアコンの効いた部屋でJavaScriptでコーディング三昧もアリかなと思ったりもします。ところで、コーヒー片手にコードを書きながら、「うわっ...私のJavaScript、古すぎない...？」とふと思ったことがありませんか？
 
-ECMAScript 6(以下ES6)が正式リリースされた2015年からかれこれ10年も経ちましたね。ES6はPromise、クラス構文やアロー関数など強力な機能を一気に導入しました。ES3から約10年間で標準仕様の策定がほぼ停滞状態だったJavaScirptにとって起死回生と言っても過言ではない節目でした。
+ECMAScript 6(以下ES6)が正式リリースされた2015年からかれこれ10年も経ちましたね。ES6はPromise、クラス構文やアロー関数など強力な機能を一気に導入しました。ES3から約10年間で標準仕様の策定がほぼ停滞状態だったJavaScriptにとって起死回生と言っても過言ではない節目でした。
 
 もし手元にTypeScriptを使っているプロジェクトがあれば、`tsconfig.json`を覗いてほしい。高い確率でコンパイルの`target`に`ES6`もしくは`ES2015`が設定されているはずです。それほど時代に大きなインパクトを残したES6ですが、実はそれを境に毎年6月頃に新しいバージョンがリリースされるようになりました。ES2016、ES2017、ES2018...と続き、現在はES2025まで策定されていて、毎年着実に進化を続けています。
 
@@ -167,7 +168,7 @@ Spread構文はシャローコピーとなるで、ネストされたオブジ�
 
 `??`の左辺が`null`または`undefined`の場合(=nullish)にのみ、右辺の値を返す演算子です。
 
-論理和の`||`演算子とよく混同されやすいですが、`||`演算子falsyで判定することに対し、`??`はnullishで判定するところが使い分けのポイントです。
+論理和の`||`演算子とよく混同されやすいですが、`||`演算子falsyな値で判定するのに対し、`??`はnullishな値のみで判定する点が使い分けのポイントです。
 
 ```javascript
 // ||演算子との違い
@@ -219,7 +220,7 @@ const result = obj.method?.();  // methodが存在する場合のみ実行
 const firstItem = array?.[0];
 ```
 
-便利な構文ですが、何もかも「とりあえず`?`を付けておけば安全だろう」という考え方はプロジェクトのメンテナス性を低下させるので、どこが`nullish`になり得るかをきちんと把握してから使いましょう。
+便利な構文ですが、何もかも「とりあえず`?`を付けておけば安全だろう」という考え方はプロジェクトのメンテナンス性を低下させるので、どこが`nullish`になり得るかをきちんと把握してから使いましょう。
 
 ```javascript
 // ❌ 悪い例：全部に?.を付ける
@@ -341,10 +342,10 @@ console.log(`平均点: ${values.reduce((a, b) => a + b) / values.length}`);
 const entries = Object.entries(scores);
 console.log(entries); // [['math', 90], ['english', 85], ['science', 92]]
 
-// entries() - オブジェクトの変換処理がより簡単に
-const doubledScores = Object.entries(scores)
-  .map(([subject, score]) => [subject, score * 2])
-  .reduce((obj, [key, val]) => ({ ...obj, [key]: val }), {});
+// entries() - 次項のfromEntries()との組み合わせでオブジェクトの変換処理がより簡単に
+const doubledScores = Object.fromEntries(
+  Object.entries(scores).map(([subject, score]) => [subject, score * 2])
+);
 console.log(doubledScores); // { math: 180, english: 170, science: 184 }
 ```
 
@@ -390,7 +391,7 @@ if (Object.prototype.hasOwnProperty.call(person, 'name')) {
 }
 ```
 
-`Object.hasOwn()`はまさにこの問題を対処するためにリリースされたObject直属の静的メソッドでした：
+`Object.hasOwn()`はまさにこの問題に対処するためにリリースされたObject直属の静的メソッドでした：
 
 ```javascript
 // より安全！
@@ -693,7 +694,7 @@ const [user, posts, comments] = await Promise.all([
 
 ## ES2024 & ES2025に入った新機能ピックアップ
 
-ここまで紹介してきたES2017〜2023の機能は、既に多くのプロダクションコードで活用されている「定番」となりました。しかし、JavaScriptの進化はまだまだ止まっていません。
+ここまで紹介してきたES2017〜2023の機能の多くは、既に現場で活用されているでしょう。しかし、JavaScriptの進化はまだまだ止まっていません。
 
 ES2024は去年の6月に正式リリースされ、ES2025も今年の6月に正式リリースされました。これらのリリースによって導入された新機能は、各ブラウザが既にサポートし始めているものの、開発現場にはまだそれほど浸透していないはずです。こちらもまとめて見ておきましょう。
 
@@ -820,7 +821,7 @@ setA.isDisjointFrom(setB); // false（共通要素がある）
 const numbers = [1, 2, 3, 4, 5].values()
   .filter(n => n % 2 === 0) // そのまま続けて書ける！
   .map(n => n * 2)
-  .take(2) // 必要な部分取れたら途中で終わらせるでパフォーマンス向上にも繋がる！
+  .take(2) // 必要な要素まで取れたら処理を打ち切るためパフォーマンス向上にも繋がる
   .toArray();  // [4, 8]
 
 // 無限イテレータだって取り扱える
