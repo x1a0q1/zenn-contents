@@ -173,10 +173,10 @@ Spread構文はシャローコピーとなるで、ネストされたオブジ�
 ```javascript
 // ||演算子との違い
 const count1 = 0 || 10;        // count1 = 10（0はfalsyなので）
-const count2 = 0 ?? 10;        // count1 = 0（0はnullishではない）
+const count2 = 0 ?? 10;        // count2 = 0（0はnullishではない）
 
 const name1 = '' || 'デフォルト';   // name1 = 'デフォルト'（空文字はfalsy）
-const name2 = '' ?? 'デフォルト';   // name1 = ''（空文字はnullishではない）
+const name2 = '' ?? 'デフォルト';   // name2 = ''（空文字はnullishではない）
 ```
 
 このように、昔`||`演算子使用しか使えなかった時代でよく悩まされていた「0や空文字が意図せずデフォルト値になってしまう問題」をスパッと解決してくれます。
