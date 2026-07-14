@@ -770,7 +770,7 @@ my-rn-app/
 - gluestack-ui → shadcn/uiの開発フロー
 - Hono / Supabase → Webのバックエンド構成と共通
 
-かつて「Swiftを覚えて、Xcodeと格闘して、証明書地獄をくぐり抜けて」という印象が強かったモバイル開発も、まず試作を始めるだけなら`npx create-expo-app@latest --template default@sdk-57`から入れるところまで参入コストが下がりました。そしてNew Architectureによって、RNが抱えていた性能上の制約も大きく改善されています。
+かつて「Swiftを覚えて、Xcodeと格闘して、証明書地獄をくぐり抜けて」という印象が強かったモバイル開発も、まず試作を始めるだけなら`bun create expo --template default@sdk-57`と、コマンド1行で入れるところまで参入コストが下がりました。そしてNew Architectureによって、RNが抱えていた性能上の制約も大きく改善されています。
 
 自分の作ったアプリが、自分のスマホのホーム画面に並ぶ。通知が届く。友達に「これ俺が作ったアプリ」とQRコードを見せられる——この体験は、Webのデプロイとはまた違う、独特の楽しさがあります。
 
